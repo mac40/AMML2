@@ -206,3 +206,72 @@ input: training set _Tr = {(x,t)}_, where _t in {-1,+1}_
 
 ![perceptron execution](./Immagini/perceptron_execution.png)
 ![perceptron execution](./Immagini/perceptron_execution_2.png)
+
+## Hypothesis Space Complexity
+
+__Def:__ __Shattering__
+
+Given S ⊂ X, S is shattered by the Hypothesis Space _H_ if and only if
+
+![shattering](./Immagini/shattering.png)
+
+(_A set of N points is shattered if there exists a hypothesis that is consistent with every classification of the N points_)
+
+__Def:__ __VC-dimension__
+
+The VC-dimension of a Hypothesis Space _H_ defined over an Instance Space _X_ is the size of the largest finite subset of _X_ shattered by _H_ (_the maximum number of data points that can be shattered_):
+
+![VC-dimension](./Immagini/vc_dimension.png)
+
+if arbitrarily large finite sets of _X_ can be shattered by _H_, then _VC(H) = inf_
+
+### VC-dimension example
+
+What is the VC-dimension for the Hyperplane dichotomies Hypothesis Space?
+
+_VC(H)_ = 3
+
+It is impossible to shatter 4 points
+
+![4 points shatter](./Immagini/shatter_four.png)
+
+## Empirical Error
+
+The __Empirical Error__ of hypothesis _h_ with respect to _Tr_ is the number of examples that _h_ misclassifies:
+
+![empirical error](./Immagini/empirical_error.png)
+
+_h_ in _H_ __overfits__ _Tr_ if Exists _h'_ in _H_ such that error _Tr_ (_h_)< error _Tr_ (_h'_), but error _D_ (_h_) > error _D_ (_h'_)
+
+## True Error
+
+The __True Error__ of hypothesis _h_ with respect to the target concept _c_ and distribution _D_ is the probability that _h_ will misclassify an instance drawn at random according to _D_
+
+![true error](./Immagini/true_error.png)
+
+## Why VC-dimension is useful: Confidence Intervals
+
+Consider a binary classification problem. Given:
+
+* Training Set: _Tr_
+* Hypothesis Space: _H_
+* Learning Algorithm: _L_ returning h\_w\*, where w\* minimizes the empirical error
+
+It is possible to use VC-dimension to bound the true error, for example:
+
+![confidence interval](./Immagini/ci_vcdim.png)
+
+where
+
+* __A__ only depends on the hypothesis returned by the learning algorithm
+* __B__ is indipendent from the hypothesis returned by the learning algorithm, however it DEPENDS on the ratio between VC(_H_) and the number of training examples _n_, and from the confidence with which the bound holds
+
+__B__ is usually called VC-confidence
+
+## Structural Risk Minimization
+
+Problem: as the VC-dimension grows, the empirical risk (A) decreases, however the VC confidence (B) increases
+
+__Structural Risk Minimization__ aims to minimizing the right hand of the confidence bound, so to get a tradeoff between A and B
+
+![structural risk minimization](./Immagini/srm.png)
