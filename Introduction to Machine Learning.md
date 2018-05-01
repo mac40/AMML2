@@ -279,3 +279,104 @@ Problem: as the VC-dimension grows, the empirical risk (A) decreases, however th
 __Structural Risk Minimization__ aims to minimizing the right hand of the confidence bound, so to get a tradeoff between A and B
 
 ![structural risk minimization](./Immagini/srm.png)
+
+## Underfitting/Overfitting and learning parameters
+
+* suppose we have some data (60 points) that we want to fit a curve to
+
+  ![underfitting overfitting](./Immagini/fitting_nocurve.png)
+* let fit a polynomial, of the form
+
+  ![polynomial](./Immagini/polyfit.png)
+* how to choose p? (Hypothesis Space)
+* for various p, we can find and plot the best polynomial, in terms of minimizing the Empirical Error
+* here are the solutions for different values of p
+
+  ![fitting curve](./Immagini/fitting_curve_1.png)
+  ![fitting curve](./Immagini/fitting_curve_2.png)
+  ![fitting curve](./Immagini/fitting_curve_3.png)
+  ![fitting curve](./Immagini/fitting_curve_4.png)
+* here is a summary of the Empirical Error ... and the Empirical Error over some new TEST data (100.000 extra points) from the same distribution, as a function of p:
+
+  ![empirical error](./Immagini/fitting_emp_error.png)
+* for very low p, the model is very simple, and so cannot capture the full complexities of the data (Underfitting! also called __Bias__)
+* for very high p, the model is complex, and so tends to overfit to spurious properties of the data (Overfitting! also called __Variance__)
+
+Unfortunately we cannot use the test set to pick up the right value of p!
+
+___Practical Problem:__ how can we use the training set to set p?_
+
+## Model Selection and Hold-out
+
+We can hold out some of our original training data
+
+### Hold-out procedure
+
+1. a small subset of _Tr_, called the validation set (or hold-out set), denoted _Va_, is identified
+2. a classifier/regressor is learnt using examples in _Tr-Va_
+3. step 2 is perfromed with different values of the parameter(s) (in our example p), and tested against the hold-out sample
+
+In an operational setting, after parameter optimization, one typically re-trains the classifier on the entire training corpus, in order to boost effectiveness (debatable step!)
+
+It is possible to shoe that the evaluation performed in step 2 gives an unbiased estimate of the errore performed by a classifier learnt with the same parameter(s) and with training set of cardinality |_Tr_|-|_Va_|<|_Tr_|
+
+## K-fold Cross Validation
+
+An alternative approach to model selection (and evaluation) is the K-fold cross-validation method
+
+### K-fold CV procedure
+
+1. k different classifiers/regressors h1,h2,...,hk are built by partitioning teh initial corpus _Tr_ into k disjoint sets _Va1_,...,_Vak_ and then iteratively applying the Hold-out approach on the k-pairs (_Tri_ = _Tr-Vai_,_Vai_)
+2. final error is obtained by individually computing the errors of h1,...,hk and then averaging the individual results
+
+The above procedure is repeated for different values of the parameter(s) and the setting (model) with smaller final error is selected
+
+The special case k = |_Tr_| of k-fold cross-validation is called __leave-one-out__ cross-validation
+
+## Back to our example
+
+* let's apply 5-fold CV
+
+  ![5-fold CV](./Immagini/5fold_cv.png)
+* minimum error reached for p=3, rather than the optimal p = 12
+* clearly, cross validation is no substitute for a large set. However, if we only have a limited training set, it is often the best option available
+
+Why cross-validation selected a simpler model than optimal?
+
+* notice that with 60 points, 5-fold cross validation effectively tries to pick the polynomial that makes the best bias-variance tradeoff for 48 (60 \*4/5) points
+* with 10-fold cross validation, it would instead try to pick the best polynomial for 54 (60\*9/10) points
+
+  Thus, cross validation is biased towards simpler models
+* __leave-one-out__ cross-validation reduced this tendency to the minimum possible by doing 60-fold cross validation
+* so let's try __leave-one-out__ cross-validation
+* we still get p=3!
+* Cross validation is a good technique, but it doesn't work miracles: there is only so much information in a small dataset.
+
+### In general
+
+Almost all learning algorithms have (hyper)parameters
+
+* Support Vector Machines: C, type of kernel (polynomial,RBF, etc.), kernel parameter (degree of polynomial, width of RFB, etc.)
+* Neural Networks:  nonlinear/linear neurons, number of hidden units, η, other learning parameters we have not discussed(e.g., momentum μ)
+
+Hold-out or Cross-Validation can e used to select the "optimal" values for the (hyper)parameters
+
+__After__ model selection, the test set is used to evaluate the goodness of the selected model
+
+## Bias and Variance
+
+![Bias and Variance](./Immagini/bias_variance.png)
+![Bias and Variance](./Immagini/bias_variance_1.png)
+![Bias and Variance](./Immagini/bias_variance_2.png)
+
+## No free lunch theorem
+
+no machine learning algorithm is universally any better than any other
+
+## Regularization
+
+Specific tasks -> set of preferences into the learning algorithm -> preferences aligned with learning task -> better performance
+
+Introduce preference for one hypothesis over another in its hypothesis space (_unpreferred hypothesis will be chosen only if it fits the training data significantly better than the preferred hypothesis_)
+
+Performance measure + Regularization
