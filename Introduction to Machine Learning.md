@@ -237,6 +237,8 @@ It is impossible to shatter 4 points
 
 ## Empirical Error
 
+![empirical graph](./Immagini/emp_graph.png)
+
 The __Empirical Error__ of hypothesis _h_ with respect to _Tr_ is the number of examples that _h_ misclassifies:
 
 ![empirical error](./Immagini/empirical_error.png)
@@ -244,6 +246,8 @@ The __Empirical Error__ of hypothesis _h_ with respect to _Tr_ is the number of 
 _h_ in _H_ __overfits__ _Tr_ if Exists _h'_ in _H_ such that error _Tr_ (_h_)< error _Tr_ (_h'_), but error _D_ (_h_) > error _D_ (_h'_)
 
 ## True Error
+
+![true error](./Immagini/true_graph.png)
 
 The __True Error__ of hypothesis _h_ with respect to the target concept _c_ and distribution _D_ is the probability that _h_ will misclassify an instance drawn at random according to _D_
 
