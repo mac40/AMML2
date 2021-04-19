@@ -109,7 +109,7 @@ Hyperplanes in R^2
 
 ## Example of Inductive Bias in Concept Learning
 
-__Definition:__ A concept on an Instance Space __X__ is defined as a boolean function on _X_.
+__Definition:__ A concept on an Instance Space _X_ is defined as a boolean function on _X_.
 
 __Definition:__ An example of a concept _c_ on the Instance Space _X_ is defined as a couple _(x,c(x))_, where _x in X_ and _c()_ is a boolean function.
 
